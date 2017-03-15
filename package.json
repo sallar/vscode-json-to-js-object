@@ -2,7 +2,7 @@
     "name": "json-to-js-object",
     "displayName": "JSON to JS Object",
     "description": "Convert a JSON Object to Javascript Object",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "publisher": "sallar",
     "engines": {
         "vscode": "^1.10.0"
