@@ -1,7 +1,7 @@
 'use strict';
-import { window, commands, Range, Position, ExtensionContext } from 'vscode';
+import * as vscode from 'vscode';
 
-function convert(json) {
+export function convert(json: string) {
     try {
         // Try to parse, to see if it's real JSON
         JSON.parse(json);
@@ -19,28 +19,24 @@ function convert(json) {
     }
 }
 
-function convertCommand(editor, edit) {
+function convertCommand(editor: vscode.TextEditor, edit: vscode.TextEditorEdit) {
     const { selection, document } = editor;
-    let text = document.getText(selection);
-    let replaceFile = false;
-
-    if (text === '') {
-        text = document.getText();
-        replaceFile = true;
-    }
+    const text = selection.isEmpty ?
+        document.getText() :
+        document.getText(selection);
 
     const converted = convert(text);
 
     if (converted === false) {
-        window.showInformationMessage('No valid JSON Object found.');
+        vscode.window.showInformationMessage('Please select a valid JSON Object.');
         return;
     }
 
     edit.replace(
-        replaceFile ?
-            new Range(
-                new Position(0, null),
-                new Position(document.lineCount - 1, null)
+        selection.isEmpty ?
+            new vscode.Range(
+                new vscode.Position(0, 0),
+                new vscode.Position(document.lineCount, 0)
             ) :
             selection,
         converted
@@ -48,10 +44,10 @@ function convertCommand(editor, edit) {
 
 }
 
-export function activate(context: ExtensionContext) {
+export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(
-        commands.registerTextEditorCommand('jsonToJSObject.convert', convertCommand)
+        vscode.commands.registerTextEditorCommand('jsonToJSObject.convert', convertCommand)
     );
 
 }

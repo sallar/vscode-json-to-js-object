@@ -1,22 +1,61 @@
-//
-// Note: This example test is leveraging the Mocha test framework.
-// Please refer to their documentation on https://mochajs.org/ for help.
-//
-
-// The module 'assert' provides assertion methods from node
 import * as assert from 'assert';
-
-// You can import and use all API from the 'vscode' module
-// as well as import your extension to test it
 import * as vscode from 'vscode';
 import * as myExtension from '../src/extension';
 
-// Defines a Mocha test suite to group tests of similar kind together
-suite("Extension Tests", () => {
+const jsonObj = `
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "title": "Product",
+    "description": "A product from Acme's catalog",
+    "type": "object",
+    "snake-case": true,
+    "properties": {
+        "id": {
+            "description": "The unique identifier for a product",
+            "type": "integer"
+        },
+        "name": {
+            "description": "Name of the product",
+            "type": "string"
+        },
+        "price": {
+            "type": "number",
+            "minimum": 0,
+            "exclusiveMinimum": true
+        }
+    },
+    "required": ["id", "name", "price"]
+}
+`;
 
-    // Defines a Mocha unit test
-    test("Something 1", () => {
-        assert.equal(-1, [1, 2, 3].indexOf(5));
-        assert.equal(-1, [1, 2, 3].indexOf(0));
+const jsObj = `
+{
+    $schema: "http://json-schema.org/draft-04/schema#",
+    title: "Product",
+    description: "A product from Acme's catalog",
+    type: "object",
+    snakeCase: true,
+    properties: {
+        id: {
+            description: "The unique identifier for a product",
+            type: "integer"
+        },
+        name: {
+            description: "Name of the product",
+            type: "string"
+        },
+        price: {
+            type: "number",
+            minimum: 0,
+            exclusiveMinimum: true
+        }
+    },
+    required: ["id", "name", "price"]
+}
+`;
+
+suite("Extension Tests", () => {
+    test("Replaces a JSON Object succesfully", () => {
+        assert.equal(myExtension.convert(jsonObj), jsObj);
     });
 });
