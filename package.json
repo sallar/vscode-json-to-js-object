@@ -2,14 +2,21 @@
     "name": "json-to-js-object",
     "displayName": "JSON to JS Object",
     "description": "Convert a JSON Object to Javascript Object",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "publisher": "sallar",
     "engines": {
         "vscode": "^1.10.0"
     },
     "categories": [
-        "Other"
+        "Formatters"
     ],
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/sallar/vscode-json-to-js-object.git"
+    },
+    "homepage": "https://github.com/sallar/vscode-json-to-js-object#readme",
+    "license": "MIT",
+    "author": "Sallar Kaboli <sallar.kaboli@gmail.com>",
     "activationEvents": [
         "onCommand:jsonToJSObject.convert"
     ],
